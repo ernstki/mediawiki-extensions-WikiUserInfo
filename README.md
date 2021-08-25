@@ -19,7 +19,7 @@ the original author (or at least the original _editor_ of the page).
 ## Credits
 
 * [User:MichaelDubner][2] - original author (?)
-* [Kevin Ernst] ([ernstki -at- mail.uc.edu](mailto:ernstki%20-at-%20mail.uc.edu)) - updates for MW 1.35.x
+* Kevin Ernst ([ernstki -at- mail.uc.edu](mailto:ernstki%20-at-%20mail.uc.edu)) - updates for MW 1.35.x
 
 [1]: https://www.mediawiki.org/w/index.php?oldid=4305468
 [2]: https://en.wikipedia.org/wiki/User:MichaelDubner
