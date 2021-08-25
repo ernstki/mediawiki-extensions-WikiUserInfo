@@ -2,7 +2,7 @@
 
 An attempt to update Extension:WikiUserInfo to work with MediaWiki 1.35.x.
 
-This is based on the [last available version], from the
+This is based on the [last available version][1], from the
 "Extension:WikiUserInfo" article on mediawiki.org, which had its source code
 stored directly on the page, with no license specified.
 
