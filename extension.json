@@ -1,0 +1,50 @@
+{
+  "name": "WikiUserInfo",
+  "type": "parserhook",
+  "description": "Allows to get info and options of user specified by name",
+  "author":
+      [
+        "Michael P. Dubner",
+        "Kevin Ernst"
+      ],
+  "version": "0.6.0",
+  "@license-name": "GPL-2.0-or-later",
+  "url": "https://www.mediawiki.org/wiki/Extension:WikiUserInfo",
+  "requires": {
+    "MediaWiki": ">= 1.35.0"
+  },
+
+  "AutoloadNamespaces": {
+    "MediaWiki\\Extension\\WikiUserInfo\\": "src/"
+  },
+
+  "ExtensionMessagesFiles": {
+    "WikiUserInfoMagic": "WikiUserInfo.i18n.magic.php"
+  },
+
+  "Hooks": {
+    "ParserFirstCallInit": "\\MediaWiki\\Extension\\WikiUserInfo\\Hooks::onParserFirstCallInit"
+  },
+
+  "AvailableRights": [
+    "showuseroption",
+    "showuseremail"
+  ],
+
+  "GroupPermissions": {
+    "*": {
+      "showuseroption": false,
+      "showuseremail": false
+    },
+    "sysop": {
+      "showuseroption": true,
+      "showuseremail": true
+    },
+    "bureaucrat": {
+      "showuseroption": true,
+      "showuseremail": true
+    }
+  },
+
+  "manifest_version": 2
+}
