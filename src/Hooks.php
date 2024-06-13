@@ -12,7 +12,7 @@ use User;
 
 // deprecated in 1.16.0; removed in 1.33.0
 #$wgHooks['LanguageGetMagic'][] = array( "wfWikiUserInfoMagicWords" );
-#$wgWikiUserInfoSafeOptions = array( 'date', 'gender', 'language', 'nickname', 'skin', 'timecorrection' );
+$wgWikiUserInfoSafeOptions = array( 'date', 'gender', 'language', 'nickname', 'skin', 'timecorrection' );
 
 class Hooks {
     // use extension.json + ExtensionMessagesFiles now
@@ -43,13 +43,14 @@ class Hooks {
 
         // for later...
         //$wgWikiUserInfoSafeOptions = ['date', 'gender', 'language', 'nickname', 'skin', 'timecorrection'];
+        #$wgWikiUserInfoSafeOptions = ['nickname'];
 
         // ref: https://www.mediawiki.org/wiki/Manual:Parser_functions#The_setFunctionHook_hook
         $parser->setFunctionHook( 'realname', [ self::class, "realname" ] );
         $parser->setFunctionHook( 'email', [ self::class, "email" ] );
+        $parser->setFunctionHook( 'nickname', [ self::class, "nickname" ] );
 
 //        $parser->setFunctionHook( 'email', array( __CLASS__, "email" ) );
-//        $parser->setFunctionHook( 'nickname', array( __CLASS__, "nickname" ) );
 //        $parser->setFunctionHook( 'useroption', array( __CLASS__, "useroption" ) );
 //        $parser->setFunctionHook( 'userregistration', array( __CLASS__, "userregistration" ) );
 //        $parser->setFunctionHook( 'usergroups', array( __CLASS__, "usergroups" ) );
@@ -111,15 +112,17 @@ class Hooks {
      * @throws PermissionsError
      */
     static function email($parser, $user ) {
-        global $wgUser, $wgOut;
-        // $wgUser->isAllows is deprecated since 1.34
+        //global $wgUser, $wgOut;
+        // $wgUser->isAllowed is deprecated since 1.34
         //  use MediaWikiServices::getInstance()->getPermissionManager()->userHasRight(...) instead
 //        if ( !$wgUser->isAllowed( 'showuseremail' ) && !$wgUser->isAllowed( 'lookupuser' ) ) {
 //            $wgOut->permissionRequired( 'showuseremail' );
 //            return;
 //        }
-        $pmgr = MediaWikiServices::getInstance()->getPermissionManager();
         $user = self::getUser( $parser, $user );
+
+        // FIXME: figure out how to initialize *once*, in constructor
+        $pmgr = MediaWikiServices::getInstance()->getPermissionManager();
 
         // presumably, 'lookupuser' comes from https://www.mediawiki.org/wiki/Extension:LookupUser
         //if ( !$pmgr->userHasRight( $user, 'showuseremail' ) && !$pmgr->userHasRight( $user, 'lookupuser' ) ) {
@@ -131,21 +134,26 @@ class Hooks {
         return $user->getEmail();
     }
 
-//    static function nickname( $parser, $user ) {
-//        return WikiUserInfo_MediaWiki::useroption( $parser, $user, 'nickname' );
-//    }
-//
-//    static function useroption( $parser, $user, $option ) {
-//        global $wgUser, $wgOut;
-//        if ( !in_array( $option, $wgWikiUserInfoSafeOptions ) && !$wgUser->isAllowed( 'showuseroption' ) &&
-//            !$wgUser->isAllowed( 'lookupuser' ) ) {
-//            $wgOut->permissionRequired( 'showuseroption' );
-//            return;
-//        }
-//        $user = WikiUserInfo_MediaWiki::getUser( $parser, $user );
-//        return $user->getOption( $option );
-//    }
-//
+    static function nickname( $parser, $user ) {
+        return self::useroption( $parser, $user, 'nickname' );
+    }
+
+    static function useroption( $parser, $user, $option ) {
+        global $wgWikiUserInfoSafeOptions;
+        // FIXME: figure out how to initialize *once*, in constructor
+        $user = self::getUser( $parser, $user );
+        $pmgr = MediaWikiServices::getInstance()->getPermissionManager();
+
+        if ( //!in_array( $option, $wgWikiUserInfoSafeOptions ) or
+             !$pmgr->userHasRight( $user, 'showuseroption' ) )
+             /* or !$pmgr->userHasRight( $user, 'lookupuser' ) ) */
+        {
+            throw new PermissionsError( 'showuseroption' );
+            //return;
+        }
+        return $user->getOption( $option );
+    }
+
 //    static function userregistration( $parser, $user ) {
 //        global $wgUser, $wgOut;
 //        if ( !$wgUser->isAllowed( 'showuseroption' ) && !$wgUser->isAllowed( 'lookupuser' ) ) {
