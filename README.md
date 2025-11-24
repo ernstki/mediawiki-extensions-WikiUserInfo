@@ -11,7 +11,7 @@ MediaWiki.org content), but I _will_ attempt to check with the original author.
 
 ## Installation
 
-Clone this repository into `extension` within your MediaWiki's installation
+Clone this repository into `extensions` within your MediaWiki's installation
 directory. Then, in your `LocalSettings.php`:
 
 ```php
@@ -27,10 +27,12 @@ $wgGroupPermissions['user']['showuseremail'] = true;
 $wgGroupPermissions['user']['showuseroption'] = true;
 ```
 
-Bureaucrats and Administrators (sysops) will have the above extensions by
-default. The "safe" options specify which additional bits of information about
-your users _other_ users in the named `$wgGroupPermissions` will be able to see
-through the use of this extension.
+Bureaucrats and Administrators (sysops) will have the above permissions by
+default.
+
+The "safe" options specified in `$wgWikiUserInfoSafeOptions` specify which
+additional bits of information about your users _other_ users in the named
+`$wgGroupPermissions` will be able to see through the use of this extension.
 
 ## About that "1.0" release
 
