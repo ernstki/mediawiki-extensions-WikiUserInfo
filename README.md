@@ -31,10 +31,25 @@ Bureaucrats and Administrators (sysops) will have the above permissions by
 default.
 
 The "safe" options specified in `$wgWikiUserInfoSafeOptions` specify which
-additional bits of information about your users _other_ users in the named
-`$wgGroupPermissions` will be able to see through the use of this extension.
+additional bits of information users in the named `$wgGroupPermissions` will be
+able to see about _other_ users through the use of this extension's parser
+functions.
 
-## About that "1.0" release
+## Provided parser functions
+
+| Function                | Purpose
+|-------------------------|-------------------------------------------------
+| `{{#realname:UserId}}`  | Returns the user's full name<sup>†</sup>
+| `{{#nickname:UserId}}`  | Returns the user's nickname (signature)<sup>†</sup>
+| `{{#email:UserId}}`     | Returns the user's email<sup>‡</sup>
+
+_† available to users with `showuseroption` permission_<br>
+_‡ available to users with `showuseremail` permission_
+
+Other user attributes may be added later, but I consider these the most useful
+ones, warranting a "1.0" release.
+
+### About that "1.0" release
 
 It's because it [breaks the API](https://semver.org) in a
 non-backward-compatible way.
