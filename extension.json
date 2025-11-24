@@ -7,8 +7,8 @@
         "Michael P. Dubner",
         "Kevin Ernst"
       ],
-  "version": "0.6.0",
-  "@license-name": "GPL-2.0-or-later",
+  "version": "1.0.0",
+  "license-name": "CC-BY-SA-4.0",
   "url": "https://www.mediawiki.org/wiki/Extension:WikiUserInfo",
   "requires": {
     "MediaWiki": ">= 1.35.0"
@@ -34,7 +34,7 @@
   "GroupPermissions": {
     "*": {
       "showuseroption": false,
-      "showuseremail": false
+      "showuseremail": true
     },
     "sysop": {
       "showuseroption": true,

@@ -1,0 +1,5 @@
+# editor and IDE detritus
+*~
+.*sw?
+.vscode/
+.idea/
